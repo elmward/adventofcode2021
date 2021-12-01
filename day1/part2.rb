@@ -1,18 +1,5 @@
 def main
-  input = File.readlines('./input.txt')
-  prev = []
-  increased = 0
-  input.map(&:to_i).each do |depth|
-    if prev.length < 3
-      prev << depth
-      next
-    end
-    curr = prev[1..2] << depth
-    increased += 1 if curr.sum > prev.sum
-    prev = curr
-  end
-
-  puts increased
+  puts File.foreach('./input.txt').map(&:to_i).each_cons(4).count { |x| x[1..3].sum > x[0..2].sum }
 end
 
 main if __FILE__ == $PROGRAM_NAME
