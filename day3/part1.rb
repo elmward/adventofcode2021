@@ -5,9 +5,7 @@ def main
   num_numbers = input.length
 
   input.first.chars.each_with_index do |_, i|
-    ones_count = input.map { |line| line.chars.reverse[i].to_i }.sum
-
-    if ones_count > (num_numbers / 2)
+    if input.count { |line| line.chars.reverse[i] == "1" } > (num_numbers / 2)
       epsilon += (2 ** i)
     else
       gamma += (2 ** i)
