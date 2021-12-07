@@ -4,6 +4,7 @@ def main
   vertical_segments = segments.filter { |segment| vertical?(segment) }
   overlaps = {}
 
+  # horizontal and vertical overlaps
   horizontal_segments.each do |h_segment|
     vertical_segments.each do |v_segment|
       min_y, max_y = [v_segment[0][1], v_segment[1][1]].sort
@@ -16,6 +17,7 @@ def main
     end
   end
 
+  # horizontal/horizontal overlaps
   horizontal_segments.each_with_index do |h_segment, i|
     horizontal_segments[i+1..].each do |h_segment2|
       if h_segment[0][1] == h_segment2[0][1]
@@ -31,6 +33,7 @@ def main
     end
   end
 
+  # vertical/vertical overlaps
   vertical_segments.each_with_index do |v_segment, i|
     vertical_segments[i+1..].each do |v_segment2|
       if v_segment[0][0] == v_segment2[0][0]
@@ -46,7 +49,6 @@ def main
     end
   end
   puts overlaps.count
-  # check if vertical segments intersect with each other
 end
 
 def horizontal?(segment)
