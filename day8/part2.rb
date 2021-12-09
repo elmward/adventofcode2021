@@ -11,7 +11,7 @@
 # how to identify each number:
 # zero has six segments, contains one's segments, and is missing one of four's segments
 # one has two segments
-# two has five segments and has the segment six is missing
+# two has five segments, has the segment six is missing, and does not have one's segments
 # three has five segments and contains one's segments
 # four has four segments
 # five has five segments and does not have the segment six is missing
@@ -21,13 +21,12 @@
 # nine has six segments and contains all of four's segments
 
 def main
-  lines = File.readlines('./sample.txt').map { |line| line.chomp.split(" | ").map(&:split) }
-  # lines = ["acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf".split(" | ").map(&:split)]
+  lines = File.readlines('./input.txt').map { |line| line.chomp.split(" | ").map(&:split) }
   decoded_outputs = lines.map do |signals, outputs|
     one = signals.detect { |signal| signal.length == 2 }.chars.sort.join
     three = signals.detect { |signal| signal.length == 5 && one.chars.all? { |c| signal.chars.include?(c) } }.chars.sort.join
     six = signals.detect { |signal| signal.length == 6 && one.chars.any? { |c| !signal.chars.include?(c) } }.chars.sort.join
-    two = signals.detect { |signal| signal.length == 5 && signal.chars.include?(("abcdefg".chars - six.chars).first) }.chars.sort.join
+    two = signals.detect { |signal| signal.length == 5 && signal.chars.include?(("abcdefg".chars - six.chars).first) && one.chars.any? { |c| !signal.chars.include?(c) } }.chars.sort.join
     five = signals.detect { |signal| signal.length == 5 && !signal.chars.include?(("abcdefg".chars - six.chars).first) }.chars.sort.join
     four = signals.detect { |signal| signal.length == 4 }.chars.sort.join
     nine = signals.detect { |signal| signal.length == 6 && four.chars.all? { |c| signal.chars.include?(c) } }.chars.sort.join
@@ -45,6 +44,12 @@ def main
     decoder[seven] = 7
     decoder[eight] = 8
     decoder[nine] = 9
+
+    if decoder.size != 10
+      puts "failed to decode something!"
+      puts "decoder: #{decoder.inspect}"
+      puts "#{signals} | #{outputs}"
+    end
     outputs.map { |output| decoder[output.chars.sort.join] }.join.to_i
   end
   puts decoded_outputs.sum
