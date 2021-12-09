@@ -1,7 +1,5 @@
 def main
   map = File.readlines('./input.txt').map { |line| line.chomp.chars.map(&:to_i) }
-  basins = []
-  visited = {}
   low_points = []
   (0..map[0].length - 1).each do |x|
     (0..map.length - 1).each do |y|
@@ -19,15 +17,12 @@ def main
 end
 
 def explore_basin(map, x, y, visited, basin)
-  return if visited[[x,y]]
+  return if visited[[x,y]] || map[y][x] == 9
   visited[[x, y]] = true
-  basin << [[x, y]] unless map[y][x] == 9
+  basin << [[x, y]]
 
-  adj = adjacencies(x, y, map)
-  unless adj.all? { |adj_x, adj_y| map[adj_y][adj_x] == 9 || visited[[adj_x, adj_y]] }
-    adj.each do |adj_x, adj_y|
-      explore_basin(map, adj_x, adj_y, visited, basin) if map[adj_y][adj_x] > map[y][x]
-    end
+  adjacencies(x, y, map).each do |adj_x, adj_y|
+    explore_basin(map, adj_x, adj_y, visited, basin)
   end
   basin
 end
