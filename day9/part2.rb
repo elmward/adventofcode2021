@@ -7,10 +7,8 @@ def main
     end
   end
 
-  basins = []
-  visited = {}
-  low_points.each do |x , y|
-    basins << explore_basin(map, x, y, visited, [])
+  basins = low_points.map do |x , y|
+    explore_basin(map, x, y, {}, [])
   end
 
   puts basins.map(&:size).sort.last(3).reduce(:*)
