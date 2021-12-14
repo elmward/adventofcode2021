@@ -9,7 +9,7 @@ def main
   end
 
   result = template
-  40.times do
+  10.times do
     result = result.chars.each_cons(2).reduce([]) do |acc, chars|
       a, b = chars[0], chars[1]
       pair = [a,b].join
