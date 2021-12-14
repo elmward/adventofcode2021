@@ -9,31 +9,25 @@ def main
     flashes += octopuses.sum { |row| row.count { |energy_level| energy_level == 0 } }
     i+=1
   end
-  puts flashes
   puts i
 end
 
 def do_all_flashes(octopuses)
-  flashes = 0
   octopuses.each_with_index do |row, y|
     row.each_with_index do |_, x|
-      flashes += do_flashes(x, y, octopuses)
+      do_flashes(x, y, octopuses)
     end
   end
-  flashes
 end
 
 def do_flashes(x, y, octopuses)
-  flashes = 0
   if octopuses[y][x] >= 10
-    flashes += 1
     octopuses[y][x] = 0
     adjacencies(x, y, octopuses).each do |adj_x, adj_y|
       octopuses[adj_y][adj_x] += 1 unless octopuses[adj_y][adj_x] == 0
-      flashes += do_flashes(adj_x, adj_y, octopuses)
+      do_flashes(adj_x, adj_y, octopuses)
     end
   end
-  flashes
 end
 
 def adjacencies(x, y, map)
