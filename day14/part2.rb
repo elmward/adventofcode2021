@@ -22,11 +22,9 @@ def main
     pair_counts = Hash.new(0).tap do |new_counts|
       pair_counts.each do |pair, old_count|
         new_char = rules[pair]
-        if new_char
-          new_counts[[pair[0], new_char]] += old_count
-          new_counts[[new_char, pair[1]]] += old_count
-          element_counts[new_char] += old_count
-        end
+        new_counts[[pair[0], new_char]] += old_count
+        new_counts[[new_char, pair[1]]] += old_count
+        element_counts[new_char] += old_count
       end
     end
   end
