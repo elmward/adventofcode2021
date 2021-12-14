@@ -1,5 +1,3 @@
-require 'set'
-
 def main
   dots, instructions = File.read('./input.txt').split("\n\n")
 
